@@ -19,5 +19,4 @@ loop() ->
 end.
 
 log(From, Time, Msg) ->
-  io:format("log:", {Time, From, Msg}). 
-%TO DO Zeile 22
+  io:format("log: ~w ~w ~p~n", [Time, From, Msg]). 
