@@ -7,7 +7,7 @@ Projektabgabe in Vorlesung EVS - Verteilte Systeme von Gruppe 1
 c(logger).
 c(worker).
 c(test).
-optional: c(lamporttime).
+c(lamporttime). %only in c) and d)
 test:run(1000,0).
 ```
 
