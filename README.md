@@ -1,6 +1,16 @@
 # Erlang-Lamport-Uhren
 Projektabgabe in Vorlesung EVS - Verteilte Systeme von Gruppe 1
 
+# Grundlagen
+
+```erlang
+c(logger).
+c(worker).
+c(test).
+optional: c(lamporttime).
+test:run(1000,0).
+```
+
 # Portfolio-Prufung zur Vorlesung ”Verteilte Systeme” ¨
 Kurs: WWI20SEB – 4. Semester
 
