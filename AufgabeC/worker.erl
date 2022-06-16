@@ -10,32 +10,33 @@ stop(Worker) ->
 init(Name, Log, Sleep, Jitter) ->
   receive
     {peers, Peers} ->
-      loop(Name, Log, Peers, Sleep, Jitter);
-        stop ->
-          ok
+      loop(Name, Log, Peers, Sleep, Jitter, lamporttime:zero());
+    stop ->
+      ok
 end.
 
 peers(Wrk, Peers) ->
   Wrk ! {peers, Peers}.
 
-loop(Name, Log, Peers, Sleep, Jitter) ->
+loop(Name, Log, Peers, Sleep, Jitter, LocalTime) ->
   Wait = rand:uniform(Sleep),
   receive
     {msg, Time, Msg} ->
-      Log ! {log, Name, Time, {received, Msg}},
-      loop(Name, Log, Peers, Sleep, Jitter);
-        stop ->
+      NewLocalTime = lamporttime:inc(lamporttime:merge(Time, LocalTime)),
+      Log ! {log, Name, NewLocalTime, {received, Msg}},
+      loop(Name, Log, Peers, Sleep, Jitter, NewLocalTime);
+    stop ->
           ok;
     Error ->
       Log ! {log, Name, time, {error, Error}}
     after Wait ->
       Selected = select(Peers),
-      Time = erlang:system_time(millisecond),
+      NewLocalTime = lamporttime:inc(LocalTime),
       Message = {hello, rand:uniform(100)},
-      Selected ! {msg, Time, Message},
+      Selected ! {msg, NewLocalTime, Message},
       jitter(Jitter),
-        Log ! {log, Name, Time, {sending, Message}},
-        loop(Name, Log, Peers, Sleep, Jitter)
+        Log ! {log, Name, NewLocalTime, {sending, Message}},
+        loop(Name, Log, Peers, Sleep, Jitter, NewLocalTime)
 end.
 
 select(Peers) ->

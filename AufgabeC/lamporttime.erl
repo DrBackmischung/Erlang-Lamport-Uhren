@@ -1,4 +1,4 @@
--modul(lamporttime).
+-module(lamporttime).
 -export([zero/0, inc/1, merge/2, leq/2]).
 
 zero() -> 0.
