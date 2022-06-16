@@ -13,8 +13,6 @@ returnClock(Nodes) -> lists:foldl(fun(Node, Acc) -> [{Node, zero()} | Acc] end, 
 
 updateClock(Node, Time, Clock) -> lists:keyreplace(Node, 1, Clock, {Node, Time}).
 
-returnClockHead(Clock) -> hd(lists:keysort(2, Clock)).
-
-canLog(Clock, T) ->
-    {_, Min} = getHead(Clock),
+canLog(T, Clock) ->
+    {_, Min} = hd(lists:keysort(2, Clock)),
     leq(T, Min).
