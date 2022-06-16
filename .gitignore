@@ -1,0 +1,5 @@
+*.beam
+AufgabeA/*.beam
+AufgabeB/*.beam
+AufgabeC/*.beam
+AufgabeD/*.beam

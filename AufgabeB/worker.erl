@@ -19,7 +19,7 @@ peers(Wrk, Peers) ->
   Wrk ! {peers, Peers}.
 
 loop(Name, Log, Peers, Sleep, Jitter) ->
-  Wait = rand:uniform(sleep),
+  Wait = rand:uniform(Sleep),
   receive
     {msg, Time, Msg} ->
       Log ! {log, Name, Time, {received, Msg}},
