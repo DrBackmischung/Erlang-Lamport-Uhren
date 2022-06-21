@@ -11,7 +11,7 @@ run(Sleep, Jitter) ->
   worker:peers(B, [A, C, D]),
   worker:peers(C, [A, B, D]),
   worker:peers(D, [A, B, C]),
-  timer:sleep(50000),
+  timer:sleep(10000),
   mylogger:stop(Log),
   worker:stop(A),
   worker:stop(B),
