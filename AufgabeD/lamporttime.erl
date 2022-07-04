@@ -1,5 +1,5 @@
 -module(lamporttime).
--export([zero/0, inc/1, merge/2, leq/2, returnClock/1, updateClock/3, canLog/2]).
+-export([zero/0, inc/1, merge/2, leq/2, initClocks/1, updateClocks/3, canLog/1]).
 
 zero() -> 0.
 
@@ -9,10 +9,8 @@ merge(Ti, Tj) -> erlang:max(Ti, Tj).
 
 leq(Ti, Tj) -> Ti =< Tj.
 
-returnClock(Nodes) -> lists:foldl(fun(Node, Acc) -> [{Node, zero()} | Acc] end, [], Nodes).
+initClocks(Nodes) -> lists:foldl(fun(Node, Clocks) -> [{Node, zero()} | Clocks] end, [], Nodes).
 
-updateClock(Node, Time, Clock) -> lists:keyreplace(Node, 1, Clock, {Node, Time}).
+updateClocks(Node, Time, Clocks) -> lists:keyreplace(Node, 1, Clocks, {Node, Time}).
 
-canLog(T, Clock) ->
-    {_, Min} = hd(lists:keysort(2, Clock)),
-    leq(T, Min).
+canLog(Clocks) -> element(2, hd(lists:keysort(2, Clocks))).
