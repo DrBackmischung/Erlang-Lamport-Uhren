@@ -8,23 +8,26 @@ stop(Logger) ->
   Logger ! stop.
 
 init(Nodes) ->
-  loop(lamporttime:returnClock(Nodes), []).
+  loop(lamporttime:initClocks(Nodes), []).
 
-loop(Clock, HoldBackQueue) ->
+loop(Clock, Queue) ->
   receive
     {log, From, Time, Msg} ->
-      Queue = lists:keysort(2, [{From, Time, Msg} | HoldBackQueue]),
-      UpdatedClock = lamporttime:updateClock(From, Time, Clock),
-      UpdatedHoldBackQueue = [],
-      lists:foreach(fun({FromElement, TimeElement, MsgElement}) ->
-        case lamporttime:canLog(TimeElement, UpdatedClock) of
-          true ->
-            log(FromElement, TimeElement, MsgElement);
-          false ->
-            lists:append([{FromElement, TimeElement, MsgElement}], UpdatedHoldBackQueue)
-        end
-      end, Queue),
-      loop(UpdatedClock, UpdatedHoldBackQueue);
+      UpdatedClocks = lamporttime:updateClocks(From, Time, Clocks),
+      LowestClock = lamporttime:canLog(UpdatedClocks),
+      case Time of 
+        1 -> 
+          log(From, Time, Msg),
+          SortedQueue = lists:keysort(2, Queue);
+        _ ->
+          SortedQueue = lists:keysort(2, Queue ++ [{From, Time, Msg}])
+      end,
+      {ReadyQueue, WaitQueue} = lists:splitwith(fun({_, Timestamp, _}) ->
+        lamporttime:leq(Timestamp, LowestTimestamp)
+        end,
+      SortedQueue),
+      lists:foreach(fun({Sender, Time, Message}) -> log(Sender, Time, Message) end, ReadyQueue),
+      loop(UpdatedClocks, WaitQueue);
     stop ->
       ok
 end.
