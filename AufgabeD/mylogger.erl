@@ -10,27 +10,48 @@ stop(Logger) ->
 init(Nodes) ->
   loop(lamporttime:initClocks(Nodes), []).
 
-loop(Clock, Queue) ->
+loop(Clocks, Queue) ->
+
   receive
+
     {log, From, Time, Msg} ->
-      UpdatedClocks = lamporttime:updateClocks(From, Time, Clocks),
-      LowestClock = lamporttime:canLog(UpdatedClocks),
-      case Time of 
-        1 -> 
-          log(From, Time, Msg),
-          SortedQueue = lists:keysort(2, Queue);
-        _ ->
-          SortedQueue = lists:keysort(2, Queue ++ [{From, Time, Msg}])
-      end,
-      {ReadyQueue, WaitQueue} = lists:splitwith(fun({_, Timestamp, _}) ->
-        lamporttime:leq(Timestamp, LowestTimestamp)
+
+        UpdatedClocks = lamporttime:updateClocks(From, Time, Clocks),
+        CheckedTimestamp = lamporttime:canLog(UpdatedClocks),
+
+        case Time of
+            1 ->
+                SortedQueue = lists:keysort(2, Queue),
+                log(From, Time, Msg);
+            _ ->
+                SortedQueue = lists:keysort(2, Queue ++ [{From, Time, Msg}])
         end,
-      SortedQueue),
-      lists:foreach(fun({Sender, Time, Message}) -> log(Sender, Time, Message) end, ReadyQueue),
-      loop(UpdatedClocks, WaitQueue);
+
+        {ReadyQueue, UpdatedQueue} = partition(SortedQueue, CheckedTimestamp),
+
+        printAll(ReadyQueue),
+  
+        loop(UpdatedClocks, UpdatedQueue);
+
     stop ->
-      ok
-end.
+        ok
+
+  end.
+
+partition(SortedQueue, CheckedTimestamp) ->
+  lists:splitwith(fun({_, Timestamp, _}) -> 
+    lamporttime:leq(Timestamp, CheckedTimestamp)
+    end,
+  SortedQueue).
+
+printAll(ReadyQueue) ->
+
+  lists:foreach(
+    fun({Sender, Timestamp, Message}) -> 
+      log(Sender, Timestamp, Message)
+    end,
+  ReadyQueue).
+
 
 log(From, Time, Msg) ->
   io:format("log: ~w ~w ~p~n", [Time, From, Msg]). 
