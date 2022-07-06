@@ -14,10 +14,10 @@ loop(Clock, HoldBackQueue) ->
   receive
     {log, From, Time, Msg} ->
       Queue = lists:keysort(2, [{From, Time, Msg} | HoldBackQueue]),
-      UpdatedClock = time:update(From, Time, Clock),
+      UpdatedClock = lamporttime:updateClock(From, Time, Clock),
       UpdatedHoldBackQueue = [],
       lists:foreach(fun({FromElement, TimeElement, MsgElement}) ->
-        case time:safe(TimeElement, UpdatedClock) of
+        case lamporttime:canLog(TimeElement, UpdatedClock) of
           true ->
             log(FromElement, TimeElement, MsgElement);
           false ->
