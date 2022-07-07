@@ -1,6 +1,6 @@
 ## Sleep: 1000
 ## Jitter: 0
-## Befehl: `test:run(100,0).`
+## Befehl: `test:run(1000,0).`
 
 ```
 log: 1 einstein {sending,{hello,21}}
