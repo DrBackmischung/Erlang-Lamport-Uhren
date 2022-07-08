@@ -19,8 +19,7 @@ c(lamporttime). % only in c) and d)
 test:run(100,0).
 test:run(1000,0).
 test:run(1000,10).
-test:run(1000,100).
-test:run(10000,1000).
+test:run(1000,1000).
 ```
 ## System
 
