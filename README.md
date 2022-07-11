@@ -26,3 +26,32 @@ test:run(1000,1000).
 [![Windows](https://svgshare.com/i/ZhY.svg)](https://svgshare.com/i/ZhY.svg)
 [![macOS](https://svgshare.com/i/ZjP.svg)](https://svgshare.com/i/ZjP.svg)
 [![Linux](https://svgshare.com/i/Zhy.svg)](https://svgshare.com/i/Zhy.svg)
+
+## Aufgabenverteilung
+
+Aufgabe A:
+- Gliederung: Nathalie & Betty
+- Summary: Nathalie & Betty
+- Video: 
+
+Aufgabe B:
+- Kommentieren: Nathalie & Betty
+- Auswertung: Nathalie & Betty
+- Video:
+
+Aufgabe C:
+- Kommentieren: Tomke
+- Auswertung: Tomke
+- Code: Tomke
+- Video:
+
+Aufgabe D:
+- Kommentieren: Mathis
+- Auswertung: Mathis
+- Code: Mathis
+- Video:
+
+Video:
+- Schnitt: Tomke
+- Catering: Betty
+- Mentale Unterstützung: Nathalie
