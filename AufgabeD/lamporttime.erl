@@ -9,8 +9,11 @@ merge(Ti, Tj) -> erlang:max(Ti, Tj).
 
 leq(Ti, Tj) -> Ti =< Tj.
 
+% Uhrenverwaltung
 initClocks(Nodes) -> lists:foldl(fun(Node, Clocks) -> [{Node, zero()} | Clocks] end, [], Nodes).
 
+% Zeitstempel in Liste aktualisieren
 updateClocks(Node, Time, Clocks) -> lists:keyreplace(Node, 1, Clocks, {Node, Time}).
+
 
 canLog(Clocks) -> element(2, hd(lists:keysort(2, Clocks))).
