@@ -5,7 +5,7 @@
 (Die Laufzeit des Programmes wurde auf 500 ms verringert, um Überbelastung der Ausgabe zu vermeiden)
 
 ```
-og: 1 einstein {sending,{hello,53}}
+log: 1 einstein {sending,{hello,53}}
 log: 1 euler {sending,{hello,44}}
 log: 1 turing {sending,{hello,40}}
 log: 1 curie {sending,{hello,8}}
