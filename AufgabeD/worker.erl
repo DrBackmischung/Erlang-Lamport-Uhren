@@ -1,6 +1,9 @@
 -module(worker).
 -export([start/4, stop/1, peers/2]).
 
+
+% Eine kommentierte Version des Codes ist in der Aufgabe C zu finden, der Code ist der selbe.
+
 start(Name, Logger, Sleep, Jitter) ->
   spawn_link(fun() -> init(Name, Logger, Sleep, Jitter) end).
 
