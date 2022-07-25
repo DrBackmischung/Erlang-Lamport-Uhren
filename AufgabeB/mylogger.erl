@@ -17,11 +17,14 @@ init(_) ->
 % Diese Funktion stellt die Loop dar, welche während der gesamten Laufzeit des Loggers ausgeführt wird
 loop() ->
   % Die Funktion wartet auf eine eingehende Nachricht, von einem der Worker Prozesse.
-  receive {log, From, Time, Msg} ->
+  receive
+    % Es wird unterschieden, ob die eingehenede Nachricht "stop" oder ein Log ist. Dies funktioniert wie ein "switch case" in Java. In diesem Fall ist es ein Log der Struktur {log, From, Time, Msg}
+    {log, From, Time, Msg} ->
       % Die Funktion gibt die Nachricht an die Ausgabefunktion weiter-
       log(From, Time, Msg),
       % Die Loop wird wieder von vorne gestartet.
       loop();
+    % Wenn kein Log eingeht, kann die Nachricht ein "stop" sein. Das ist hier der Fall.
     % So die Loop gestoppt wird, soll nur noch "ok" ausgegeben werden.
     stop ->
       ok
