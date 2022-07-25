@@ -12,4 +12,8 @@ Der Worker kann gestartet und gestoppt werden. Beim Starten wird ein neuer Worke
 
 ### `mylogger.erl`
 
-Der Logger bekommt durchgehend Logs zugeschickt. Dieser Log beinhaltet den Zeitstempel (Systemzeit), den Sender sowie die Nachricht bestehend aus ("sending"|"received) und einem Objekt mit einer Nachricht und einer Zufallszahl zum Identifizieren. Der Logger loggt alle Nachrichten ohne Sortierung und direkt beim Eintreffen. Deswegen sind die Nachrichten bei einem Einsatz eines Jitters unlogisch - die "received"-Nachrichten kommen manchmal vor den "sending"-Nachrichten.
+Der Logger bekommt durchgehend Logs zugeschickt. Dieser Log beinhaltet den Zeitstempel (Systemzeit), den Sender sowie die Nachricht bestehend aus ("sending"|"received) und einem Objekt mit einer Nachricht und einer Zufallszahl zum Identifizieren. 
+
+### Problem bei der Implementierung
+
+Der Logger loggt alle Nachrichten ohne Sortierung und direkt beim Eintreffen. Deswegen sind die Nachrichten bei einem Einsatz eines Jitters unlogisch - die "received"-Nachrichten kommen manchmal vor den "sending"-Nachrichten an. Dafür werden in der nächsten Aufgaben Lamportuhren eingefügt, da diese sich synchronisieren lassen. 
