@@ -1,4 +1,4 @@
-# Auswertung - Aufgabe D
+# Auswertung - Aufgabe C
 
 ## Idee
 
