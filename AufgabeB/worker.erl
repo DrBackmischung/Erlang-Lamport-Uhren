@@ -17,8 +17,9 @@ init(Name, Log, Sleep, Jitter) ->
     {peers, Peers} ->
       % Wenn sich ein anderer Prozess gemeldet hat, wird die Loop gestartet.
       loop(Name, Log, Peers, Sleep, Jitter);
-        stop ->
-          ok
+    % Wenn "stop" empfangen wird, wird nicht neu geloopt sondern der Worker gestoppt.
+    stop ->
+      ok
 end.
 
 % Diese Funktion sorgt dafür, dass der Worker die anderen Worker mitgeteilt bekommt.
@@ -39,8 +40,9 @@ loop(Name, Log, Peers, Sleep, Jitter) ->
       Log ! {log, Name, Time, {received, Msg}},
       % Starte die Loop erneut. 
       loop(Name, Log, Peers, Sleep, Jitter);
-        stop ->
-          ok;
+    % Wenn "stop" empfangen wird, wird der worker gestoppt.
+    stop ->
+      ok;
     % Sollte ein Error auftauchen, lasse diesen im Logger ausgeben.
     Error ->
       Log ! {log, Name, time, {error, Error}}
