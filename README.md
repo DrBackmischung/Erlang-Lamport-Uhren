@@ -15,11 +15,12 @@ Erlang CLI
 c(logger).
 c(worker).
 c(test).
-c(lamporttime). % only in c) and d)
+c(lamporttime). % nur in c) und d)
 test:run(100,0).
 test:run(1000,0).
 test:run(1000,10).
 test:run(1000,1000).
+% weitere Tests möglich
 ```
 ## System
 
