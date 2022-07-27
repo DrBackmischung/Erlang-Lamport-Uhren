@@ -1,8 +1,6 @@
 # Erlang-Lamport-Uhren
 Projektabgabe in Vorlesung EVS - Verteilte Systeme von Gruppe 1
 
-https://www.academia.edu/13950360/Concurrent_Programming_in_ERLANG_Second_Edition
-
 ## Grundlagen
 
 Bash/CMD
